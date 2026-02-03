@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "tp-todo": {
+    "projet-fitness": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:class": {
@@ -86,10 +86,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "tp-todo:build:production"
+              "buildTarget": "projet-fitness:build:production"
             },
             "development": {
-              "buildTarget": "tp-todo:build:development"
+              "buildTarget": "projet-fitness:build:development"
             }
           },
           "defaultConfiguration": "development"
