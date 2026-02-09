@@ -1,18 +1,25 @@
-<li class="list-group-item d-flex justify-content-between align-items-center mb-2">
-<div class="d-flex flex-column align-items-start">
-   <span
-    class="badge rounded-pill mb-1"
-    [ngClass]="{
-      'bg-success': routine.status == Status.ACTIVE,
-      'bg-secondary': routine.status == Status.INACTIVE
-    }"
-  >
-    {{ routine.status | titlecase }}
-  </span>
 
-    <h5 class="mb-1">{{ routine.name }}</h5>
-    <small class="text-muted">Créée le {{ routine.creationDate }}</small>
-  </div>
+<li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+
+  <a
+    routerLink="routines/{{routine.id}}"
+    class="d-flex flex-grow-1 text-decoration-none align-items-start"
+  >
+    <div class="d-flex flex-column">
+      <span
+        class="badge rounded-pill mb-1 align-self-start"
+        [ngClass]="{
+          'bg-success': routine.status == Status.ACTIVE,
+          'bg-secondary': routine.status == Status.INACTIVE
+        }"
+      >
+        {{ routine.status | titlecase }}
+      </span>
+
+      <h5 class="mb-1">{{ routine.name }}</h5>
+      <small class="text-muted">Créée le {{ routine.creationDate }}</small>
+    </div>
+  </a>
 
   <div class="d-flex align-items-center gap-2">
     
@@ -26,11 +33,11 @@
     
 
 
-    <!--Bouton d'édition de la tache-->
+    <!--Bouton d'édition de la routine-->
     <a class="btn btn-info" routerLink="/routine/edit/{{ routine.id }}"
       ><i class="fa-solid fa-pen-to-square"></i
     ></a>
-    <!--Bouton de suppression de la tache-->
+    <!--Bouton de suppression de la routine-->
     <button class="btn btn-danger" (click)="onSupprime()">
       <i class="fa-solid fa-trash-can"></i>
     </button>

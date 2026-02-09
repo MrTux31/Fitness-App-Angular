@@ -1,0 +1,27 @@
+@if(exercices){
+
+<div class="accordion" id="accordionPanelsStayOpenExample">
+  @for(exercice of exercices; track exercice.id){
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          [attr.data-bs-target]="'#panelsStayOpen' + exercice.id"
+          [attr.aria-controls]="'panelsStayOpen' + exercice.id"
+        >
+          {{exercice.name}}
+        </button>
+      </h2>
+      <div [id]="'panelsStayOpen' + exercice.id" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <p>Répétitions : {{exercice.repetitions}}</p>
+          <p>Poids : {{exercice.weight}}</p>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+
+}

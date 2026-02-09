@@ -10,6 +10,7 @@ export class Routine {
   constructor(
     public id: number = 0,
     public name: string = '',
+    public description : string = '',
     public creationDate: string = '',
     public status: Status = Status.ACTIVE
   ) {}

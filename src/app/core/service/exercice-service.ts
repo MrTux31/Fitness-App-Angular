@@ -15,7 +15,7 @@ export class ExerciceService {
 
   //Url de l'API REST
   readonly exerciceAPI = environment.apiUrl + '/exercises'; //va chercher dans la var d'environnement
-
+  readonly routineApi = environment.apiUrl + '/routines';
   constructor() {}
 
   getExercices(): Observable<Exercice[]> {
@@ -27,9 +27,9 @@ export class ExerciceService {
   }
 
   getExercicesRoutine(idRoutine: number): Observable<Exercice[]> {
-    return this.http.get<Exercice[]>(this.exerciceAPI + '/' + idRoutine + '/exercises');
+    return this.http.get<Exercice[]>(this.routineApi +'/'+ idRoutine + '/exercises');
   }
-  addExercie(nouvelExercice: Exercice): Observable<Exercice> {
+  addExercice(nouvelExercice: Exercice): Observable<Exercice> {
     return this.http.post<Exercice>(this.exerciceAPI, nouvelExercice);
   }
 
