@@ -1,0 +1,14 @@
+
+
+<h2>
+  <b>{{ routines().length }} </b> routines
+</h2>
+
+<ul class="list-group">
+
+<!--Boucle sur les routines-->
+@for (routine of routines(); track routine.id) {
+  <!--On génère les routine à afficher-->
+  <app-routine-item [routine]="routine"></app-routine-item>
+}
+  </ul>

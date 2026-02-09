@@ -1,0 +1,47 @@
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
+import { Routine, Status } from '../models/routine';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class RoutineService {
+  //injection du client http
+  private http = inject(HttpClient);
+
+  //Url de l'API REST
+  readonly routineAPI = environment.apiUrl + '/routines'; //va chercher dans la var d'environnement
+
+  constructor() {}
+
+  getRoutines(filtres?: {status? : Status}): Observable<Routine[]> {
+
+    //Paramètres pour la requete a faire
+    let params: any = {};
+
+    //Si y a le status on l'ajoute dans les params
+    if(filtres?.status){
+      params.status = filtres.status
+    }
+
+    return this.http.get<Routine[]>(this.routineAPI, {params} );
+  }
+
+  getRoutine(id: number): Observable<Routine> {
+    return this.http.get<Routine>(this.routineAPI + '/' + id);
+  }
+
+  addRoutine(nouvelleRoutine: Routine): Observable<Routine> {
+    return this.http.post<Routine>(this.routineAPI, nouvelleRoutine);
+  }
+
+  updateRoutine(routine: Routine): Observable<Routine> {
+    return this.http.put<Routine>(this.routineAPI + '/' + routine.id, routine);
+  }
+
+  deleteRoutine(routine: Routine): Observable<Routine> {
+    return this.http.delete<Routine>(this.routineAPI + '/' + routine.id);
+  }
+}
