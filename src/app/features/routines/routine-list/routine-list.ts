@@ -13,7 +13,8 @@ import { RoutineItem } from '../routine-item/routine-item';
 export class RoutineList {
 
   @Input()
-  public status : Status = null
+  //Variable optionnelle pour filtrer, soit reçue de^puis le html, soit undefined.
+  triStatus? : Status 
 
 
   private router = inject(Router);
@@ -28,8 +29,9 @@ export class RoutineList {
   }
 
   private chargerRoutines() {
+    
     //On récupère la liste des routines
-    this.routineService.getRoutines().subscribe({
+    this.routineService.getRoutines({status: this.triStatus}).subscribe({
       next: (listeRoutines) => {
         this.routines.set(listeRoutines);
       },

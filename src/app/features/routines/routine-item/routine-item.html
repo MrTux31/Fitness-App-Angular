@@ -1,7 +1,38 @@
-<li class="list-group-item bg-success">
+<li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+<div class="d-flex flex-column align-items-start">
+   <span
+    class="badge rounded-pill mb-1"
+    [ngClass]="{
+      'bg-success': routine.status == Status.ACTIVE,
+      'bg-secondary': routine.status == Status.INACTIVE
+    }"
+  >
+    {{ routine.status | titlecase }}
+  </span>
+
+    <h5 class="mb-1">{{ routine.name }}</h5>
+    <small class="text-muted">Créée le {{ routine.creationDate }}</small>
+  </div>
+
+  <div class="d-flex align-items-center gap-2">
+    
+    <!--Bouton pour mettre innactive et pour remettre la routine active-->
+    @if(routine.status == Status.ACTIVE){
+      <a class="btn btn-success"><i class="fa-solid fa-check"></i></a>
+    }
+    @else{
+      <a class="btn btn-light"><i class="fa-solid fa-rotate-left"></i></a>
+    }
+    
 
 
-
-  <p>{{routine.name}}</p>
-
+    <!--Bouton d'édition de la tache-->
+    <a class="btn btn-info" routerLink="/routine/edit/{{ routine.id }}"
+      ><i class="fa-solid fa-pen-to-square"></i
+    ></a>
+    <!--Bouton de suppression de la tache-->
+    <button class="btn btn-danger" (click)="onSupprime()">
+      <i class="fa-solid fa-trash-can"></i>
+    </button>
+  </div>
 </li>

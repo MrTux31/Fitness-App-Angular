@@ -1,11 +1,12 @@
 import { Component, inject, Input } from '@angular/core';
 import { RoutineService } from '../../../core/service/routine-service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Routine, Status } from '../../../core/models/routine';
+import { NgClass, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-routine-item',
-  imports: [],
+  imports: [NgClass, TitleCasePipe, RouterLink],
   templateUrl: './routine-item.html',
   styleUrl: './routine-item.css',
 })
@@ -20,6 +21,9 @@ export class RoutineItem {
   public routine: Routine = new Routine()
 
 
+  onSupprime():void{
+
+  }
 
 
 

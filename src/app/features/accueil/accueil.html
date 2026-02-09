@@ -1,8 +1,8 @@
 
 <div class="container">
-  <h1 class="my-4">Gestion de tâches</h1>
-  <p>Application de gestion de tâches réalisée en Angular</p>
+  <h1 class="my-4">Routine Fitness</h1>
+  <p>Vos routines actuellement actives :</p>
   <!--Paramètre en entrée : on met le status de la liste sur ACTIVE pour afficher uniquement les actives-->
-  <app-routine-list [status] = Status.ACTIVE ></app-routine-list>
+  <app-routine-list [triStatus]="Status.ACTIVE"></app-routine-list>
 </div>
 
