@@ -2,14 +2,14 @@ import { NgClass, TitleCasePipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { Routine, Status } from '../../../core/models/routine';
 import { RoutineService } from '../../../core/service/routine-service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { RoutineExercices } from "../routine-exercices/routine-exercices";
 import { Exercice } from '../../../core/models/exercice';
 import { ExerciceService } from '../../../core/service/exercice-service';
 
 @Component({
   selector: 'app-routine-detail',
-  imports: [NgClass, TitleCasePipe, RoutineExercices],
+  imports: [NgClass, TitleCasePipe, RoutineExercices, RouterLink],
   templateUrl: './routine-detail.html',
   styleUrl: './routine-detail.css',
 })
@@ -33,9 +33,9 @@ export class RoutineDetail {
 
   recupererRoutine(id: number){
     this.routineService.getRoutine(id).subscribe({
-      next: (routine) => { this.routine.set(routine), this.recupererExercices(id)}, 
+      next: (routine) => { this.routine.set(routine), this.recupererExercices(id)},
       error: (err) => this.router.navigateByUrl('/taches')
-  
+
     })
   }
 
@@ -45,5 +45,7 @@ export class RoutineDetail {
       error: (err) => this.router.navigateByUrl('/taches')
     })
   }
+
+
 
 }
