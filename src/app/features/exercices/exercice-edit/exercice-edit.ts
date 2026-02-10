@@ -1,0 +1,69 @@
+import { Component, inject, signal } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { FormsModule, NgForm, NgModel } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Exercice } from '../../../core/models/exercice';
+import { ExerciceService } from '../../../core/service/exercice-service';
+
+@Component({
+  selector: 'app-exercice-edit',
+  imports: [NgClass, FormsModule, RouterLink],
+  templateUrl: './exercice-edit.html',
+  styleUrl: './exercice-edit.css',
+})
+export class ExerciceEdit {
+  public exercice = signal<Exercice>(new Exercice());
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private exerciceService = inject(ExerciceService);
+
+  public routineId!: number; //Sera assigné après
+  public exerciceId!: number
+
+  ngOnInit() {
+    //Récupérer l'id de la routine concernée
+    this.routineId = this.route.snapshot.params['routineId'];
+    //Récupérer l'id de l'exercice concerné
+    this.exerciceId = this.route.snapshot.params['exerciceId'];
+
+    //Si l'id de l'exercice n'est pas présent, on quitte
+    if(!this.routineId){
+      this.router.navigateByUrl('/routines');
+    }
+
+    //Cas modification, on pré charge l'exercice
+    if(this.exerciceId){
+      this.chargerExercice(this.exerciceId);
+    }
+  }
+
+  chargerExercice(id: number) {
+    this.exerciceService.getExercice(id).subscribe({
+      next: (exercice) => {
+        this.exercice.set(exercice);
+      },
+    });
+  }
+
+  onSubmit(formulaire: NgForm) {
+    //si le formulaire est bien valide
+    if (formulaire.valid) {
+      //Cas modification
+      if (this.exercice().id) {
+        this.exerciceService.updateExercice(this.exercice()).subscribe({
+          next: () => this.router.navigateByUrl('/routines' + '/' + this.routineId),
+          error: () => this.router.navigateByUrl('/routines'),
+        });
+      }
+      //Cas création
+      else {
+        //on associe l'exercice à sa routine
+        this.exercice().routineId = this.routineId
+        this.exerciceService.addExercice(this.exercice()).subscribe({
+          next: () => this.router.navigateByUrl('/routines' + '/' + this.routineId),
+          error: () => this.router.navigateByUrl('/routines'),
+        });
+      }
+    }
+  }
+}

@@ -21,7 +21,11 @@ export class RoutineEdit {
   ngOnInit(): void {
     //Récupérer l'id de la routine à afficher
     const id = this.route.snapshot.params['id'];
-    this.chargerRoutine(id);
+    
+    //Cas modification, on pré charge la routine
+    if(id){
+      this.chargerRoutine(id);
+    }
   }
 
   chargerRoutine(id: number) {
@@ -33,19 +37,21 @@ export class RoutineEdit {
   }
 
   onSubmit(formulaire: NgForm) {
-    //Cas modification
-    if (this.routine()!.id) {
-      this.routineService.updateRoutine(this.routine()!).subscribe({
-        next: () => this.router.navigateByUrl('/routines/' + this.routine()!.id),
-        error: () => this.router.navigateByUrl('/taches' + this.routine()!.id),
-      });
-    }
-    //Cas création
-    else {
-      this.routineService.addRoutine(this.routine()!).subscribe({
-        next: () => this.router.navigateByUrl('/routines/' + this.routine()!.id),
-        error: () => this.router.navigateByUrl('/taches' + this.routine()!.id),
-      });
+    if (formulaire.valid) {
+      //Cas modification
+      if (this.routine()!.id) {
+        this.routineService.updateRoutine(this.routine()!).subscribe({
+          next: () => this.router.navigateByUrl('/routines/' + this.routine()!.id),
+          error: () => this.router.navigateByUrl('/routines'),
+        });
+      }
+      //Cas création
+      else {
+        this.routineService.addRoutine(this.routine()!).subscribe({
+          next: () => this.router.navigateByUrl('/routines/' + this.routine()!.id),
+          error: () => this.router.navigateByUrl('/routines'),
+        });
+      }
     }
   }
 }

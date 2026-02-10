@@ -1,0 +1,48 @@
+
+<div  class="d-flex flex-column align-items-center">
+
+  <h2 class="mb-5">{{exercice().id == 0 ? 'Création de l\'exercice': 'Modification de l\'exercice'}}</h2>
+  
+  <form #formulaire="ngForm" (ngSubmit)="onSubmit(formulaire)" class="w-50">
+
+  <div class="mb-3">
+
+    <label for="nomExercice" class="form-label">
+      Nom de l'exercice
+    </label>
+    <input ngModel required minlength="3" type="text" name="nomExercice" class="form-control" id="nomExercice" placeholder="Mon exercice" [(ngModel)]="exercice().name">
+
+  </div>
+
+  <div class="mb-3">
+
+    <label for="repetitions" class="form-label">
+    Nombre de répétitions
+    </label>
+    <input ngModel required type="number" name="repetitions" min="1" class="form-control" id ="repetitions" placeholder="30" [(ngModel)]="exercice().repetitions">
+
+  </div>
+
+   <div class="mb-3">
+
+    <label for="poids" class="form-label">
+    Poids (Kg)
+    </label>
+    <input ngModel required type="number" name="poids" min="0" class="form-control" id ="poids" placeholder="30" [(ngModel)]="exercice().weight">
+
+  </div>
+
+  <div class="d-flex justify-content-start mt-2 gap-2">
+    <!--Bouton désactivé si le formulaire est invalide-->                          <!--Changer le bouton en fonction de l'id de la tache pour savoir si on est en édition ou non-->
+    <button class="btn btn-success" type="submit" [disabled]="formulaire.invalid" >{{exercice().id == 0 ? 'Créer l\'exercice': 'Modifier l\'exercice'}}</button>
+    <a routerLink="/routines/{{routineId}}" class="btn btn-warning">Annuler</a>
+  
+  </div>
+
+
+
+
+</form>
+
+</div>
+

@@ -1,7 +1,7 @@
 
 <div  class="d-flex flex-column align-items-center">
 
-  <h2 class="mb-5">Modification de la routine</h2>
+  <h2 class="mb-5">{{routine()!.id == 0 ? 'Création de la routine': 'Modification de la routine'}}</h2>
   
   <form #formulaire="ngForm" (ngSubmit)="onSubmit(formulaire)" class="w-50">
 
@@ -10,7 +10,7 @@
     <label for="nomRoutine" class="form-label">
       Nom de la routine
     </label>
-    <input type="text" name="nomRoutine" class="form-control" id="nomRoutine" placeholder="Ma nouvelle routine" [(ngModel)]="routine()!.name">
+    <input ngModel required minlength="3" type="text" name="nomRoutine" class="form-control" id="nomRoutine" placeholder="Ma nouvelle routine" [(ngModel)]="routine()!.name">
 
   </div>
 
@@ -19,7 +19,7 @@
     <label for="description" class="form-label">
       Description
     </label>
-    <input type="text" name="description" class="form-control" id ="description" placeholder="Une routine incroyable" [(ngModel)]="routine()!.description">
+    <input ngModel type="text" name="description" class="form-control" id ="description" placeholder="Une routine incroyable" [(ngModel)]="routine()!.description">
 
   </div>
 
@@ -27,6 +27,7 @@
     <!--Bouton désactivé si le formulaire est invalide-->                          <!--Changer le bouton en fonction de l'id de la tache pour savoir si on est en édition ou non-->
     <button class="btn btn-success" type="submit" [disabled]="formulaire.invalid" >{{routine()!.id == 0 ? 'Créer la routine': 'Modifier la routine'}}</button>
     <a routerLink="/routines/{{routine().id}}" class="btn btn-warning">Annuler</a>
+  
   </div>
 
 
