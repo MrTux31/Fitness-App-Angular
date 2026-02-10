@@ -1,0 +1,20 @@
+@if (status == StatusChargement.CHARGEMENT) {
+<div class="alert alert-dismissible alert-info">
+  <h1>Chargement en cours</h1>
+  <p>Merci de patienter quelques instants</p>
+  <div class="progress w-50 mt-2">
+      <div
+        class="progress-bar progress-bar-striped progress-bar-animated"
+        role="progressbar"
+        style="width: 100%"
+      ></div>
+    </div>
+</div>
+}
+@else if(status == StatusChargement.ERREUR){
+<div class="alert alert-dismissible alert-danger">
+  <h1>Service indisponible</h1>
+  <p>Veuillez réessayer plus tard...</p>
+  <!--<button class="btn btn-primary" (click)="retry.emit()">Réessayer</button>-->
+</div>
+}
