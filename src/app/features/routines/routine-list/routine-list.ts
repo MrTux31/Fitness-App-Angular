@@ -12,21 +12,31 @@ import { StatusChargement, Chargement } from '../../../shared/alert/chargement/c
   styleUrl: './routine-list.css',
 })
 export class RoutineList {
-
   @Input()
   //Variable optionnelle pour filtrer, soit reçue de^puis le html, soit undefined.
-  triStatus? : Status
+  triStatus?: Status;
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private routineService = inject(RoutineService);
-  
 
   //Tableau qui va contenir les routines
   @Input() public routines = signal<Routine[]>([]);
 
-  
+  ngOnInit() {
+    this.chargerRoutines();
+  }
 
-  
-  
+  private chargerRoutines() {
+    //On récupère la liste des routines
+    this.routineService.getRoutines({status: this.triStatus}).subscribe({
+      next: (listeRoutines) => {
+
+        this.routines.set(listeRoutines);
+      },
+
+    });
+  }
+
+
 }

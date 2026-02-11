@@ -22,9 +22,9 @@ export class ExerciceEdit {
 
   ngOnInit() {
     //Récupérer l'id de la routine concernée
-    this.routineId = this.route.snapshot.params['routineId'];
+    this.routineId = Number(this.route.snapshot.params['routineId']);
     //Récupérer l'id de l'exercice concerné
-    this.exerciceId = this.route.snapshot.params['exerciceId'];
+    this.exerciceId = Number(this.route.snapshot.params['exerciceId']);
 
     //Si l'id de l'exercice n'est pas présent, on quitte
     if(!this.routineId){

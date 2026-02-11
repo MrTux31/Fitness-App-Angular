@@ -1,4 +1,4 @@
-@if (routine() != null && exercices() != null) {
+
 
 <a class="btn btn-primary mb-3" routerLink="/routines "
   ><i class="fa-solid fa-arrow-right-from-bracket fa-flip-horizontal"></i> Retour aux routines</a
@@ -7,29 +7,29 @@
 <div
   class="card mb-3"
   [ngClass]="{
-      'border-light': routine()?.status == Status.INACTIVE,
-      'border-success': routine()?.status == Status.ACTIVE,
+      'border-light': routine().status == Status.INACTIVE,
+      'border-success': routine().status == Status.ACTIVE,
     }"
 >
   <div class="card-header d-flex justify-content-between align-items-center">
     <div class="d-flex justify-content-between align-items-center gap-5">
-      <h2>{{ routine()?.name }}</h2>
-      <small>Créée le {{ routine()?.creationDate }}</small>
+      <h2>{{ routine().name }}</h2>
+      <small>Créée le {{ routine().creationDate }}</small>
     </div>
 
     <div class="d-flex align-items-center gap-2">
       <!--Bouton pour mettre innactive et pour remettre la routine active-->
-      @if (routine()?.status == Status.ACTIVE) {
+      @if (routine().status == Status.ACTIVE) {
       <a class="btn btn-success"><i class="fa-solid fa-check"></i></a>
       } @else {
       <a class="btn btn-light"><i class="fa-solid fa-rotate-left"></i></a>
       }
       <!--Bouton d'édition de la routine-->
-      <a class="btn btn-info" routerLink="/routines/edit/{{ routine()?.id }}"
+      <a class="btn btn-info" routerLink="/routines/edit/{{ routine().id }}"
         ><i class="fa-solid fa-pen-to-square"></i
       ></a>
       <!--Bouton de suppression de la routine-->
-      <button class="btn btn-danger">
+      <button (click)="onSupprime()" class="btn btn-danger">
         <i class="fa-solid fa-trash-can"></i>
       </button>
     </div>
@@ -38,15 +38,15 @@
     <span
       class="badge mb-2"
       [ngClass]="{
-          'bg-light': routine()?.status == Status.INACTIVE,
-          'bg-success': routine()?.status == Status.ACTIVE,
+          'bg-light': routine().status == Status.INACTIVE,
+          'bg-success': routine().status == Status.ACTIVE,
         }"
-      >{{ routine()?.status | titlecase }}</span
+      >{{ routine().status | titlecase }}</span
     >
-    <p class="card-text">{{ routine()?.description }}</p>
+    <p class="card-text">{{ routine().description }}</p>
   </div>
   <!--Afficher les excercices ici-->
-  <app-routine-exercices [exercices]="exercices()!"></app-routine-exercices>
+  <app-routine-exercices [exercices]="exercices()"></app-routine-exercices>
 </div>
 
 <!--Bouton d'ajout d'un exercice-->
@@ -57,4 +57,4 @@
   </button>
   </a>
 </div>
-}
+

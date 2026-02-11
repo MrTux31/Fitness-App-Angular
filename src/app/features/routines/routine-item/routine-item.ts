@@ -18,11 +18,12 @@ export class RoutineItem {
   public readonly Status = Status
 
   @Input()
-  public routine: Routine = new Routine()
+  public routine!: Routine
 
-
-  onSupprime():void{
-
+  //On met la routine innactif
+  validerRoutine(){
+    this.routine.status = Status.INACTIVE
+    this.routineService.updateRoutine(this.routine).subscribe()
   }
 
 

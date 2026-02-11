@@ -25,7 +25,7 @@
 
     <!--Bouton pour mettre innactive et pour remettre la routine active-->
     @if(routine.status == Status.ACTIVE){
-      <a class="btn btn-success"><i class="fa-solid fa-check"></i></a>
+     <button class="btn btn-success" (click)="validerRoutine()"> <i class="fa-solid fa-check"></i></button>
     }
     @else{
       <a class="btn btn-light"><i class="fa-solid fa-rotate-left"></i></a>
