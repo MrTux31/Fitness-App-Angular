@@ -1,0 +1,8 @@
+.routine-item {
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+.routine-item.removing {
+  opacity: 0;
+  transform: translateX(40px);
+}

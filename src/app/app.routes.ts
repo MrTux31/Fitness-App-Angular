@@ -6,8 +6,9 @@ import { ExerciceEdit } from './features/exercices/exercice-edit/exercice-edit';
 
 export const routes: Routes = [
   { path: '', component: Accueil, pathMatch: 'full' },
-  { path: 'routines/:routineId/edit', component: ExerciceEdit },
+  { path: 'routines/:routineId/add', component: ExerciceEdit },
   { path: 'routines/:routineId/edit/:exerciceId', component: ExerciceEdit },
+  { path: 'routines/add', component: RoutineEdit },
   { path: 'routines/edit/:id', component: RoutineEdit },
   { path: 'routines/:id', component: RoutineDetail },
 

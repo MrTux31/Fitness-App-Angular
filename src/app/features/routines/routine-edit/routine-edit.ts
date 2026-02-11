@@ -4,7 +4,7 @@ import { NgClass } from '@angular/common';
 import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { RoutineService } from '../../../core/service/routine-service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-
+import { format } from 'date-fns';
 @Component({
   selector: 'app-routine-edit',
   imports: [NgClass, FormsModule, RouterLink],
@@ -39,16 +39,16 @@ export class RoutineEdit {
   onSubmit(formulaire: NgForm) {
     if (formulaire.valid) {
       //Cas modification
-      if (this.routine()!.id) {
-        this.routineService.updateRoutine(this.routine()!).subscribe({
-          next: () => this.router.navigateByUrl('/routines/' + this.routine()!.id),
+      if (this.routine().id) {
+        this.routineService.updateRoutine(this.routine()).subscribe({
+          next: () => this.router.navigateByUrl('/routines/' + this.routine().id),
           error: () => this.router.navigateByUrl('/routines'),
         });
       }
       //Cas création
       else {
-        this.routineService.addRoutine(this.routine()!).subscribe({
-          next: () => this.router.navigateByUrl('/routines/' + this.routine()!.id),
+        this.routineService.addRoutine(this.routine()).subscribe({
+          next: () => this.router.navigateByUrl('/routines'),
           error: () => this.router.navigateByUrl('/routines'),
         });
       }

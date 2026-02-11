@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Routine, Status } from '../models/routine';
+import { format } from 'date-fns';
 
 @Injectable({
   providedIn: 'root',
@@ -16,17 +17,16 @@ export class RoutineService {
 
   constructor() {}
 
-  getRoutines(filtres?: {status? : Status}): Observable<Routine[]> {
-
+  getRoutines(filtres?: { status?: Status }): Observable<Routine[]> {
     //Paramètres pour la requete a faire
     let params: any = {};
 
     //Si y a le status on l'ajoute dans les params
-    if(filtres?.status){
-      params.status = filtres.status
+    if (filtres?.status) {
+      params.status = filtres.status;
     }
 
-    return this.http.get<Routine[]>(this.routineAPI, {params} );
+    return this.http.get<Routine[]>(this.routineAPI, { params });
   }
 
   getRoutine(id: number): Observable<Routine> {
@@ -34,6 +34,8 @@ export class RoutineService {
   }
 
   addRoutine(nouvelleRoutine: Routine): Observable<Routine> {
+    //Mettre a jour la date de création
+    nouvelleRoutine.creationDate = format(new Date(), 'yyyy-MM-dd');
     return this.http.post<Routine>(this.routineAPI, nouvelleRoutine);
   }
 
@@ -44,4 +46,12 @@ export class RoutineService {
   deleteRoutine(routine: Routine): Observable<Routine> {
     return this.http.delete<Routine>(this.routineAPI + '/' + routine.id);
   }
+
+  toggleStatus(routine: Routine): Observable<Routine> {
+    const newStatus = routine.status === Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE;
+    routine.status = newStatus;
+    return this.updateRoutine(routine);
+  }
+
+  
 }

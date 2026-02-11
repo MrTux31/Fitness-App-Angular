@@ -12,6 +12,6 @@
 <!--Boucle sur les routines-->
 @for (routine of routines(); track routine.id) {
   <!--On génère les routine à afficher-->
-  <app-routine-item [routine]="routine"></app-routine-item>
+  <app-routine-item [routine]="routine" [triStatus]="triStatus" (routineUpdated)="routineUpdated()"></app-routine-item>
 }
   </ul>

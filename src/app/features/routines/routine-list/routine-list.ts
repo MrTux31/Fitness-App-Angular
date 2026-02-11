@@ -1,4 +1,4 @@
-import { Component, inject, Input, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoutineService } from '../../../core/service/routine-service';
 import { Routine, Status } from '../../../core/models/routine';
@@ -12,31 +12,24 @@ import { StatusChargement, Chargement } from '../../../shared/alert/chargement/c
   styleUrl: './routine-list.css',
 })
 export class RoutineList {
+
   @Input()
   //Variable optionnelle pour filtrer, soit reçue de^puis le html, soit undefined.
   triStatus?: Status;
 
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private routineService = inject(RoutineService);
-
+  
   //Tableau qui va contenir les routines
   @Input() public routines = signal<Routine[]>([]);
 
-  ngOnInit() {
-    this.chargerRoutines();
+
+  @Output() routineChanged = new EventEmitter<void>();
+
+
+  routineUpdated() {
+    this.routineChanged.emit(); // remonte encore un niveau
   }
 
-  private chargerRoutines() {
-    //On récupère la liste des routines
-    this.routineService.getRoutines({status: this.triStatus}).subscribe({
-      next: (listeRoutines) => {
-
-        this.routines.set(listeRoutines);
-      },
-
-    });
-  }
+ 
 
 
 }

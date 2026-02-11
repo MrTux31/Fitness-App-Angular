@@ -20,9 +20,9 @@
     <div class="d-flex align-items-center gap-2">
       <!--Bouton pour mettre innactive et pour remettre la routine active-->
       @if (routine().status == Status.ACTIVE) {
-      <a class="btn btn-success"><i class="fa-solid fa-check"></i></a>
+      <button  class="btn btn-success" (click)="changeStatusRoutine()"><i class="fa-solid fa-check"></i></button>
       } @else {
-      <a class="btn btn-light"><i class="fa-solid fa-rotate-left"></i></a>
+      <a class="btn btn-light" (click)="changeStatusRoutine()"><i class="fa-solid fa-rotate-left"></i></a>
       }
       <!--Bouton d'édition de la routine-->
       <a class="btn btn-info" routerLink="/routines/edit/{{ routine().id }}"
@@ -51,7 +51,7 @@
 
 <!--Bouton d'ajout d'un exercice-->
 <div class="list-group-item text-center">
-  <a routerLink="/routines/{{routine()?.id}}/edit">
+  <a routerLink="/routines/{{routine().id}}/add">
   <button class="btn btn-success btn-sm">
     <i class="fa-solid fa-plus"></i> Ajouter un exercice
   </button>

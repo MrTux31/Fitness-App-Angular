@@ -64,6 +64,13 @@ export class RoutineDetail {
     }
   }
 
+  //On met la routine innactif
+  changeStatusRoutine(){
+    this.routineService.toggleStatus(this.routine()).subscribe({
+      next:(routine)=> this.routine.set(routine)
+    })
+  }
+
   /**
    * Permet de supprimer tous les exercices liés à la routine
    */
