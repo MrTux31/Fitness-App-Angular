@@ -6,45 +6,47 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { RoutineExercices } from "../routine-exercices/routine-exercices";
 import { Exercice } from '../../../core/models/exercice';
 import { ExerciceService } from '../../../core/service/exercice-service';
+import { Chargement, StatusChargement } from '../../../shared/alert/chargement/chargement';
 
 @Component({
   selector: 'app-routine-detail',
-  imports: [NgClass, TitleCasePipe, RoutineExercices, RouterLink],
+  imports: [NgClass, TitleCasePipe, RoutineExercices, RouterLink, Chargement],
   templateUrl: './routine-detail.html',
   styleUrl: './routine-detail.css',
 })
 export class RoutineDetail {
   public readonly Status = Status;
+  public readonly StatusChargement = StatusChargement
   public routine = signal<Routine>(new Routine());
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+
+  public statusChargement = signal<StatusChargement>(StatusChargement.CHARGEMENT);
+
 
   private routineService = inject(RoutineService);
   private exerciceService = inject(ExerciceService);
 
   public exercices = signal<Exercice[]>([]);
+  public idRoutine = 0
 
   ngOnInit() {
     //Récupérer l'id de la routine à afficher
-    const id = this.route.snapshot.params['id'];
-    this.recupererRoutine(id);
+    this.idRoutine = this.route.snapshot.params['id'];
+    this.recupererRoutine(this.idRoutine);
   }
 
   recupererRoutine(id: number) {
+    this.statusChargement.set(StatusChargement.CHARGEMENT)
     this.routineService.getRoutine(id).subscribe({
       next: (routine) => {
-        (this.routine.set(routine), this.recupererExercices(id));
-      },
-      error: (err) => this.router.navigateByUrl('/taches'),
-    });
-  }
+        this.routine.set(routine)
+        this.statusChargement.set(StatusChargement.SUCCES)
 
-  recupererExercices(idRoutine: number) {
-    this.exerciceService.getExercicesRoutine(idRoutine).subscribe({
-      next: (exercices) => {
-        (this.exercices.set(exercices));
       },
-      error: (err) => this.router.navigateByUrl('/taches'),
+      error: (err) => {this.router.navigateByUrl('/taches')
+        this.statusChargement.set(StatusChargement.ERREUR)
+      },
     });
   }
 

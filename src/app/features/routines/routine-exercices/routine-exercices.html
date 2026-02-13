@@ -1,4 +1,4 @@
-@if(exercices){
+@if(statusChargement() == StatusChargement.SUCCES){
 
 <div class="accordion mt-3">
   <div class="accordion-item">
@@ -10,14 +10,14 @@
         data-bs-target="#exercices"
         aria-expanded="true"
       >
-        Exercices ({{ exercices.length }})
+        Exercices ({{ exercices().length }})
       </button>
     </div>
 
     <div id="exercices" class="accordion-collapse collapse show">
       <div class="accordion-body p-0">
         <ul class="list-group list-group-flush">
-          @for(exercice of exercices; track exercice.id){
+          @for(exercice of exercices(); track exercice.id){
           <li class="list-group-item d-flex justify-content-between">
             <span class="d-flex align-items-center gap-2">
               {{ exercice.name }}
@@ -48,5 +48,8 @@
     </div>
   </div>
 </div>
+
+}@else {
+  <app-chargement [status]="statusChargement()"></app-chargement>
 
 }

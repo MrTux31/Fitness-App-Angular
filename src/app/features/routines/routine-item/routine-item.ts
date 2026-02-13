@@ -25,7 +25,7 @@ export class RoutineItem {
 
   //On emet un event de sortie pour avertir si la routine est modifiée
   @Output()
-  routineUpdated = new EventEmitter<void>();
+  routineUpdated = new EventEmitter<number>();
 
   //On met la routine innactif
   changerStatusRoutine() {
@@ -36,13 +36,15 @@ export class RoutineItem {
       this.isRemoving = true; // lance l'animation
     }
 
+
+
     this.routineService.toggleStatus(this.routine).subscribe({
       next: () => {
         //On prévient le parent que la routine a été mise à jour (pour refresh la liste)
 
         //On met un petit délais avant de prévenir le parent de recharger la liste
         setTimeout(() => {
-          this.routineUpdated.emit(); // parent peut recharger la liste
+          this.routineUpdated.emit(this.routine.id); // parent peut recharger la liste
         }, 300);
       },
     });

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable, switchMap } from 'rxjs';
 import { Routine, Status } from '../models/routine';
 import { format } from 'date-fns';
 
@@ -53,5 +53,5 @@ export class RoutineService {
     return this.updateRoutine(routine);
   }
 
-  
+
 }

@@ -5,9 +5,10 @@ import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { RoutineService } from '../../../core/service/routine-service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { format } from 'date-fns';
+import { Chargement, StatusChargement } from '../../../shared/alert/chargement/chargement';
 @Component({
   selector: 'app-routine-edit',
-  imports: [NgClass, FormsModule, RouterLink],
+  imports: [NgClass, FormsModule, RouterLink,Chargement],
   templateUrl: './routine-edit.html',
   styleUrl: './routine-edit.css',
 })
@@ -18,10 +19,14 @@ export class RoutineEdit {
 
   routineService = inject(RoutineService);
 
+  public readonly StatusChargement = StatusChargement
+  statusChargement = signal<StatusChargement>(StatusChargement.SUCCES)
+
+
   ngOnInit(): void {
     //Récupérer l'id de la routine à afficher
     const id = this.route.snapshot.params['id'];
-    
+
     //Cas modification, on pré charge la routine
     if(id){
       this.chargerRoutine(id);
@@ -29,10 +34,14 @@ export class RoutineEdit {
   }
 
   chargerRoutine(id: number) {
+    this.statusChargement.set(StatusChargement.CHARGEMENT)
     this.routineService.getRoutine(id).subscribe({
       next: (routine) => {
         this.routine.set(routine);
+        this.statusChargement.set(StatusChargement.SUCCES);
       },
+      error:()=> this.statusChargement.set(StatusChargement.ERREUR)
+
     });
   }
 

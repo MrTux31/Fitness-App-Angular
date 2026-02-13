@@ -17,19 +17,19 @@ export class RoutineList {
   //Variable optionnelle pour filtrer, soit reçue de^puis le html, soit undefined.
   triStatus?: Status;
 
-  
+
   //Tableau qui va contenir les routines
   @Input() public routines = signal<Routine[]>([]);
 
 
-  @Output() routineChanged = new EventEmitter<void>();
+  @Output() routineChanged = new EventEmitter<number>();
 
 
-  routineUpdated() {
-    this.routineChanged.emit(); // remonte encore un niveau
+  routineUpdated(id : number) {
+    this.routineChanged.emit(id); // remonte encore un niveau
   }
 
- 
+
 
 
 }

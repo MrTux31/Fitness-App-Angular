@@ -1,39 +1,54 @@
+@if (statusChargement() == StatusChargement.SUCCES) {
+  <div class="d-flex flex-column align-items-center">
+  <h2 class="mb-5">
+    {{ routine()!.id == 0 ? 'Création de la routine' : 'Modification de la routine' }}
+  </h2>
 
-<div  class="d-flex flex-column align-items-center">
-
-  <h2 class="mb-5">{{routine()!.id == 0 ? 'Création de la routine': 'Modification de la routine'}}</h2>
-  
   <form #formulaire="ngForm" (ngSubmit)="onSubmit(formulaire)" class="w-50">
+    <div class="mb-3">
+      <label for="nomRoutine" class="form-label"> Nom de la routine </label>
+      <input
+        ngModel
+        required
+        minlength="3"
+        type="text"
+        name="nomRoutine"
+        class="form-control"
+        id="nomRoutine"
+        placeholder="Ma nouvelle routine"
+        [(ngModel)]="routine()!.name"
+      />
+    </div>
 
-  <div class="mb-3">
+    <div class="mb-3">
+      <label for="description" class="form-label"> Description </label>
+      <input
+        ngModel
+        type="text"
+        name="description"
+        class="form-control"
+        id="description"
+        placeholder="Une routine incroyable"
+        [(ngModel)]="routine()!.description"
+      />
+    </div>
 
-    <label for="nomRoutine" class="form-label">
-      Nom de la routine
-    </label>
-    <input ngModel required minlength="3" type="text" name="nomRoutine" class="form-control" id="nomRoutine" placeholder="Ma nouvelle routine" [(ngModel)]="routine()!.name">
-
-  </div>
-
-  <div class="mb-3">
-
-    <label for="description" class="form-label">
-      Description
-    </label>
-    <input ngModel type="text" name="description" class="form-control" id ="description" placeholder="Une routine incroyable" [(ngModel)]="routine()!.description">
-
-  </div>
-
-  <div class="d-flex justify-content-start mt-2 gap-2">
-    <!--Bouton désactivé si le formulaire est invalide-->                          <!--Changer le bouton en fonction de l'id de la tache pour savoir si on est en édition ou non-->
-    <button class="btn btn-success" type="submit" [disabled]="formulaire.invalid" >{{routine()!.id == 0 ? 'Créer la routine': 'Modifier la routine'}}</button>
-    <a routerLink="/routines/{{routine().id}}" class="btn btn-warning">Annuler</a>
-  
-  </div>
-
-
-
-
-</form>
-
+    <div class="d-flex justify-content-start mt-2 gap-2">
+      <!--Bouton désactivé si le formulaire est invalide-->
+      <!--Changer le bouton en fonction de l'id de la tache pour savoir si on est en édition ou non-->
+      <button class="btn btn-success" type="submit" [disabled]="formulaire.invalid">
+        {{ routine()!.id == 0 ? 'Créer la routine' : 'Modifier la routine' }}
+      </button>
+      <a
+        [routerLink]="routine().id === 0 ? '/routines' : ['/routines', routine().id]"
+        class="btn btn-warning"
+        >Annuler</a
+      >
+    </div>
+  </form>
 </div>
 
+}@else{
+  <app-chargement [status]="statusChargement()"></app-chargement>
+
+}
