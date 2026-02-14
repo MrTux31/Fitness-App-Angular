@@ -4,10 +4,11 @@ import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Exercice } from '../../../core/models/exercice';
 import { ExerciceService } from '../../../core/service/exercice-service';
+import { Chargement, StatusChargement } from '../../../shared/alert/chargement/chargement';
 
 @Component({
   selector: 'app-exercice-edit',
-  imports: [NgClass, FormsModule, RouterLink],
+  imports: [NgClass, FormsModule, RouterLink,Chargement],
   templateUrl: './exercice-edit.html',
   styleUrl: './exercice-edit.css',
 })
@@ -19,6 +20,9 @@ export class ExerciceEdit {
 
   public routineId!: number; //Sera assigné après
   public exerciceId!: number
+
+  public readonly StatusChargement = StatusChargement
+  statusChargement = signal<StatusChargement>(StatusChargement.SUCCES)
 
   ngOnInit() {
     //Récupérer l'id de la routine concernée
@@ -38,9 +42,14 @@ export class ExerciceEdit {
   }
 
   chargerExercice(id: number) {
+    this.statusChargement.set(StatusChargement.CHARGEMENT)
     this.exerciceService.getExercice(id).subscribe({
       next: (exercice) => {
         this.exercice.set(exercice);
+        this.statusChargement.set(StatusChargement.SUCCES);
+      },
+      error: () => {
+        this.statusChargement.set(StatusChargement.ERREUR);
       },
     });
   }

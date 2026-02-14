@@ -1,8 +1,9 @@
+@if (statusChargement() == StatusChargement.SUCCES) {
 
 <div  class="d-flex flex-column align-items-center">
 
   <h2 class="mb-5">{{exercice().id == 0 ? 'Création de l\'exercice': 'Modification de l\'exercice'}}</h2>
-  
+
   <form #formulaire="ngForm" (ngSubmit)="onSubmit(formulaire)" class="w-50">
 
   <div class="mb-3">
@@ -36,7 +37,7 @@
     <!--Bouton désactivé si le formulaire est invalide-->                          <!--Changer le bouton en fonction de l'id de la tache pour savoir si on est en édition ou non-->
     <button class="btn btn-success" type="submit" [disabled]="formulaire.invalid" >{{exercice().id == 0 ? 'Créer l\'exercice': 'Modifier l\'exercice'}}</button>
     <a routerLink="/routines/{{routineId}}" class="btn btn-warning">Annuler</a>
-  
+
   </div>
 
 
@@ -45,4 +46,8 @@
 </form>
 
 </div>
+}@else{
+  <app-chargement [status]="statusChargement()"></app-chargement>
+
+}
 
