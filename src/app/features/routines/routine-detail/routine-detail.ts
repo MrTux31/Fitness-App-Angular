@@ -17,15 +17,14 @@ import { Chargement, StatusChargement } from '../../../shared/alert/chargement/c
 export class RoutineDetail {
   public readonly Status = Status;
   public readonly StatusChargement = StatusChargement
-  public routine = signal<Routine>(new Routine());
+  
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-
-  public statusChargement = signal<StatusChargement>(StatusChargement.CHARGEMENT);
-
-
   private routineService = inject(RoutineService);
   private exerciceService = inject(ExerciceService);
+
+  public routine = signal<Routine>(new Routine());
+  public statusChargement = signal<StatusChargement>(StatusChargement.CHARGEMENT);
 
   public exercices = signal<Exercice[]>([]);
   public idRoutine = 0

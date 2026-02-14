@@ -19,7 +19,7 @@ export class RoutineItem {
   public isRemoving = false; //Permet de savoir si on met la routine en innactif (on la check)
 
   @Input()
-  public routine!: Routine;
+  public routine: Routine = new Routine();
 
   @Input() triStatus?: Status;
 
@@ -35,7 +35,6 @@ export class RoutineItem {
     if (doitAnimer) {
       this.isRemoving = true; // lance l'animation
     }
-
 
 
     this.routineService.toggleStatus(this.routine).subscribe({

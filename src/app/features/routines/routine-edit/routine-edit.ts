@@ -11,13 +11,13 @@ import { Chargement, StatusChargement } from '../../../shared/alert/chargement/c
   styleUrl: './routine-edit.css',
 })
 export class RoutineEdit {
-  public routine = signal<Routine>(new Routine());
+  public readonly StatusChargement = StatusChargement
+
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-
   routineService = inject(RoutineService);
-
-  public readonly StatusChargement = StatusChargement
+  
+  public routine = signal<Routine>(new Routine());
   statusChargement = signal<StatusChargement>(StatusChargement.SUCCES)
 
 

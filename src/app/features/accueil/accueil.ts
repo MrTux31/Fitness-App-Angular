@@ -17,7 +17,7 @@ export class Accueil {
   public readonly StatusChargement = StatusChargement;
   router = inject(Router);
   private routineService = inject(RoutineService);
- public statusChargement = signal<StatusChargement>(StatusChargement.CHARGEMENT);
+  public statusChargement = signal<StatusChargement>(StatusChargement.CHARGEMENT);
   public listeRoutines = signal<Routine[]>([]);
 
 
