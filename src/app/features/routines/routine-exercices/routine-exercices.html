@@ -1,63 +1,88 @@
-@if(statusChargement() == StatusChargement.SUCCES){
+@if(statusChargement() == StatusChargement.SUCCES){ @if(exercices().length > 0){
+<div class="accordion mt-3">
+  <div class="accordion-item">
+    <div class="accordion-header">
+      <button
+        class="accordion-button"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#exercices"
+        aria-expanded="true"
+      >
+        Exercices ({{ exercices().length }})
+      </button>
+    </div>
 
-  @if(exercices().length > 0){
-    <div class="accordion mt-3">
-    <div class="accordion-item">
-      <div class="accordion-header">
-        <button
-          class="accordion-button"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#exercices"
-          aria-expanded="true"
-        >
-          Exercices ({{ exercices().length }})
-        </button>
-      </div>
-
-      <div id="exercices" class="accordion-collapse collapse show">
-        <div class="accordion-body p-0">
-          <ul class="list-group list-group-flush">
-            @for(exercice of exercices(); track exercice.id){
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="d-flex align-items-center gap-2">
-                {{ exercice.name }}
-                <small class="text-muted">(x{{ exercice.repetitions }})</small>
-                <!--Affichage du poids si nécessaire-->
-                @if(exercice.weight){
-                <span class="badge bg-secondary d-flex justify-content-center align-items-center"
-                  >{{ exercice.weight }} kg</span
-                >
-                }
-              </span>
-
-              <div class="d-flex align-items-center gap-2">
-                <!--Bouton d'édition de l'exercice-->
-                <a class="btn btn-info" routerLink="/routines/{{ routineId }}/edit/{{ exercice.id }}"
-                  ><i class="fa-solid fa-pen-to-square"></i
-                ></a>
-
-                <!--Bouton de suppression de l'exercice-->
-                <button (click)="onSupprime(exercice)" class="btn btn-danger">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-              </div>
-            </li>
-
-            }
-          </ul>
+    <div id="exercices" class="accordion-collapse collapse show">
+      <div class="accordion-body p-0 bg-secondary">
+       
+        <!--Bouton pour tout mettre "fait" ou "non fait" d'un coup-->
+        <div class="d-flex justify-content-center gap-2">
+          <button class="btn btn-success btn-sm" (click)="changeAllExerciceStatus(true)">
+            <i class="fa-solid fa-check"></i> Tout cocher comme fait
+          </button>
+          <button class="btn btn-info btn-sm" (click)="changeAllExerciceStatus(false)">
+            <i class="fa-solid fa-rotate-left" ></i> Tout remettre à non fait
+          </button>
         </div>
+
+        <ul class="list-group list-group-flush">
+          @for(exercice of exercices(); track exercice.id){
+          <li class="list-group-item d-flex justify-content-between">
+            <span class="d-flex align-items-center gap-2">
+              {{ exercice.name }}
+              <small class="text-muted">(x{{ exercice.repetitions }})</small>
+              <!--Affichage du poids si nécessaire-->
+              @if(exercice.weight){
+              <span class="badge bg-secondary d-flex justify-content-center align-items-center"
+                >{{ exercice.weight }} kg</span
+              >
+              }
+            </span>
+
+            <div class="d-flex align-items-center gap-2">
+              <!--Bouton pour mettre l'exercice à fait / non fait-->
+              @if(exerciceStatus[exercice.routineId][exercice.id] === undefined){
+              <button
+                class="btn btn-success"
+                title="Marquer comme fait"
+                (click)="toggleExerciceStatus(exercice)"
+              >
+                <i class="fa-solid fa-check"></i>
+              </button>
+              }@else if(exerciceStatus[exercice.routineId][exercice.id] === true) {
+              <button
+                class="btn btn-light"
+                title="Marquer comme non fait"
+                (click)="toggleExerciceStatus(exercice)"
+              >
+                <i class="fa-solid fa-rotate-left"></i>
+              </button>
+              }
+
+              <!--Bouton d'édition de l'exercice-->
+              <a class="btn btn-info" routerLink="/routines/{{ routineId }}/edit/{{ exercice.id }}"
+                ><i class="fa-solid fa-pen-to-square"></i
+              ></a>
+
+              <!--Bouton de suppression de l'exercice-->
+              <button (click)="onSupprime(exercice)" class="btn btn-danger">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          </li>
+
+          }
+        </ul>
       </div>
     </div>
   </div>
-  }@else{
-     <p class="text-center bg-white text-dark p-2 rounded m-0">
+</div>
+}@else{
+<p class="text-center bg-white text-dark p-2 rounded m-0">
   Eh oh tu fais quoi ? Y a pas encore d'exercice ???
 </p>
-  }
-  
-
-}@else {
+} }@else {
 <app-chargement [status]="statusChargement()"></app-chargement>
 
 }

@@ -50,12 +50,13 @@
 </div>
 
 <!--Bouton d'ajout d'un exercice-->
-<div class="list-group-item text-center">
+<div class="list-group-item text-center just">
   <a routerLink="/routines/{{routine().id}}/add">
   <button class="btn btn-success btn-sm">
     <i class="fa-solid fa-plus"></i> Ajouter un exercice
   </button>
   </a>
+  
 </div>
 }@else{
   <app-chargement [status]="statusChargement()"></app-chargement>

@@ -11,26 +11,30 @@ import { Chargement, StatusChargement } from '../../../shared/alert/chargement/c
   styleUrl: './routine-exercices.css',
 })
 export class RoutineExercices {
+  public readonly StatusChargement = StatusChargement
 
   @Input()
   public routineId: number = 0;
 
-  private exercieService = inject(ExerciceService);
+  public exerciceService = inject(ExerciceService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+
   exercices = signal<Exercice[]>([]);
-
-  public readonly StatusChargement = StatusChargement
   statusChargement = signal<StatusChargement>(StatusChargement.SUCCES)
+ 
+  //Va stocker les infos du local storage pour savoir les exos faits ou non faits
+  exerciceStatus : any
 
-  exerciceService = inject(ExerciceService);
+
   ngOnInit() {
     this.recupererExercices(this.routineId);
+    this.getExerciceStatus()
   }
 
   onSupprime(exercice: Exercice): void {
     if (confirm('Voulez-vous réellement supprimer cet exercice ?')) {
-      this.exercieService.deleteExercice(exercice).subscribe({
+      this.exerciceService.deleteExercice(exercice).subscribe({
         //Suppression de l'exercice
         next: (exercice) => {
           this.router
@@ -52,5 +56,25 @@ export class RoutineExercices {
       error: (err) => this.statusChargement.set(StatusChargement.ERREUR)
 
     });
+
+    
   }
+
+  //Va chercher dans le local storage pour savoir les exos qui ne sont pas faits
+    getExerciceStatus(){
+      this.exerciceStatus = this.exerciceService.getExerciceStatus(this.routineId)
+  }
+
+  //Déclencher le changement de status sur l'exercice
+  toggleExerciceStatus(exercice : Exercice){
+    this.exerciceService.toggleExerciceStatus(exercice)
+    this.getExerciceStatus()
+  }
+
+  //Permet de changer d'un coup tous les status des exercices de la routine : tout "fait" ou tout "non fait"
+  changeAllExerciceStatus(status : boolean){
+    this.exerciceService.changeAllExerciceStatus(status, this.exercices())
+    this.getExerciceStatus()
+  }
+
 }
