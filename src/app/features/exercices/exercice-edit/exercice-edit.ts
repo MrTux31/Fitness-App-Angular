@@ -37,7 +37,7 @@ export class ExerciceEdit {
 
     //Si l'id de l'exercice n'est pas présent, on quitte
     if(!this.routineId){
-      this.router.navigateByUrl('/routines');
+      this.router.navigateByUrl('/');
     }
 
     //Cas modification, on pré charge l'exercice
@@ -77,7 +77,7 @@ export class ExerciceEdit {
       if (this.exercice().id) {
         this.exerciceService.updateExercice(this.exercice()).subscribe({
           next: () => this.router.navigateByUrl('/routines' + '/' + this.routineId),
-          error: () => this.router.navigateByUrl('/routines'),
+          error: () => this.router.navigateByUrl('/'),
         });
       }
       //Cas création
@@ -86,7 +86,7 @@ export class ExerciceEdit {
         this.exercice().routineId = this.routineId
         this.exerciceService.addExercice(this.exercice()).subscribe({
           next: () => this.router.navigateByUrl('/routines' + '/' + this.routineId),
-          error: () => this.router.navigateByUrl('/routines'),
+          error: () => this.router.navigateByUrl('/'),
         });
       }
     }

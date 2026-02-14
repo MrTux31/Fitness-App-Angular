@@ -43,7 +43,7 @@ export class RoutineDetail {
         this.statusChargement.set(StatusChargement.SUCCES)
 
       },
-      error: (err) => {this.router.navigateByUrl('/taches')
+      error: (err) => {this.router.navigateByUrl('/')
       },
     });
   }

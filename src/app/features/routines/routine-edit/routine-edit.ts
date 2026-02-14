@@ -49,14 +49,14 @@ export class RoutineEdit {
       if (this.routine().id) {
         this.routineService.updateRoutine(this.routine()).subscribe({
           next: () => this.router.navigateByUrl('/routines/' + this.routine().id),
-          error: () => this.router.navigateByUrl('/routines'),
+          error: () => this.router.navigateByUrl('/'),
         });
       }
       //Cas création
       else {
         this.routineService.addRoutine(this.routine()).subscribe({
-          next: () => this.router.navigateByUrl('/routines'),
-          error: () => this.router.navigateByUrl('/routines'),
+          next: () => this.router.navigateByUrl('/'),
+          error: () => this.router.navigateByUrl('/'),
         });
       }
     }
