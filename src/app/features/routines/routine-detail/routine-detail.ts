@@ -3,14 +3,14 @@ import { Component, inject, signal } from '@angular/core';
 import { Routine, Status } from '../../../core/models/routine';
 import { RoutineService } from '../../../core/service/routine-service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { RoutineExercices } from "../routine-exercices/routine-exercices";
+import { ExerciceList } from "../../exercices/exercice-list/exercice-list";
 import { Exercice } from '../../../core/models/exercice';
 import { ExerciceService } from '../../../core/service/exercice-service';
 import { Chargement, StatusChargement } from '../../../shared/alert/chargement/chargement';
 
 @Component({
   selector: 'app-routine-detail',
-  imports: [NgClass, TitleCasePipe, RoutineExercices, RouterLink, Chargement],
+  imports: [NgClass, TitleCasePipe, ExerciceList, RouterLink, Chargement],
   templateUrl: './routine-detail.html',
   styleUrl: './routine-detail.css',
 })

@@ -1,0 +1,47 @@
+@if(statusChargement() == StatusChargement.SUCCES){ @if(exercices().length > 0){
+<div class="accordion mt-3">
+  <div class="accordion-item">
+    <div class="accordion-header">
+      <button
+        class="accordion-button"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#exercices"
+        aria-expanded="true"
+      >
+        Exercices ({{ exercices().length }})
+      </button>
+    </div>
+
+    <div id="exercices" class="accordion-collapse collapse show">
+      <div class="accordion-body p-0 bg-secondary">
+       
+        <!--Bouton pour tout mettre "fait" ou "non fait" d'un coup-->
+        <div class="d-flex justify-content-center gap-2">
+          <button class="btn btn-success btn-sm" (click)="changeAllExerciceStatus(true)">
+            <i class="fa-solid fa-check"></i> Tout cocher comme fait
+          </button>
+          <button class="btn btn-info btn-sm" (click)="changeAllExerciceStatus(false)">
+            <i class="fa-solid fa-rotate-left" ></i> Tout remettre à non fait
+          </button>
+        </div>
+
+        <ul class="list-group list-group-flush">
+          @for(exercice of exercices(); track exercice.id){
+            <app-exercice-item [exercice] ="exercice" [exerciceStatus]="exerciceStatus" (exerciceUpdated)="getExerciceStatus()"> </app-exercice-item>
+
+
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+}@else{
+<p class="text-center bg-white text-dark p-2 rounded m-0">
+  Eh oh tu fais quoi ? Y a pas encore d'exercice ???
+</p>
+} }@else {
+<app-chargement [status]="statusChargement()"></app-chargement>
+
+}

@@ -53,11 +53,11 @@
 </div>
 @if (statusChargement() == StatusChargement.SUCCES) {
 
-<app-routine-list
-  [triStatus]="triStatus"
-  [routines]="listeRoutines"
-  (routineChanged)="supprimerRoutineListe($event)"
-></app-routine-list>
+  <app-routine-list
+    [triStatus]="triStatus"
+    [routines]="listeRoutines"
+    (routineChanged)="supprimerRoutineListe($event)"
+  ></app-routine-list>
 }
 @else{
 

@@ -1,0 +1,44 @@
+<li class="list-group-item d-flex justify-content-between">
+  <span class="d-flex align-items-center gap-2">
+    {{ exercice.name }}
+    <small class="text-muted">(x{{ exercice.repetitions }})</small>
+    <!--Affichage du poids si nécessaire-->
+    @if(exercice.weight){
+    <span class="badge bg-secondary d-flex justify-content-center align-items-center"
+      >{{ exercice.weight }} kg</span
+    >
+    }
+  </span>
+
+  <div class="d-flex align-items-center gap-2">
+    <!--Bouton pour mettre l'exercice à fait / non fait-->
+    @if(exerciceStatus[exercice.routineId][exercice.id] === undefined){
+    <button
+      class="btn btn-success"
+      title="Marquer comme fait"
+      (click)="toggleExerciceStatus(exercice)"
+    >
+      <i class="fa-solid fa-check"></i>
+    </button>
+    }@else if(exerciceStatus[exercice.routineId][exercice.id] === true) {
+    <button
+      class="btn btn-light"
+      title="Marquer comme non fait"
+      (click)="toggleExerciceStatus(exercice)"
+    >
+      <i class="fa-solid fa-rotate-left"></i>
+    </button>
+    }
+
+    <!--Bouton d'édition de l'exercice-->
+    <a class="btn btn-info" routerLink="/routines/{{ exercice.routineId }}/edit/{{ exercice.id }}"
+      ><i class="fa-solid fa-pen-to-square"></i
+    ></a>
+
+
+    <!--Bouton de suppression de l'exercice-->
+    <button (click)="onSupprime()" class="btn btn-danger">
+      <i class="fa-solid fa-trash-can"></i>
+    </button>
+  </div>
+</li>

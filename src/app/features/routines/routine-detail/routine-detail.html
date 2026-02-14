@@ -46,7 +46,8 @@
     <p class="card-text">{{ routine().description }}</p>
   </div>
   <!--Afficher les excercices ici-->
-  <app-routine-exercices [routineId]="idRoutine"></app-routine-exercices>
+  <app-exercice-list [routineId]="idRoutine"></app-exercice-list>
+
 </div>
 
 <!--Bouton d'ajout d'un exercice-->

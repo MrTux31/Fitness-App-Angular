@@ -5,12 +5,10 @@ import { Chargement, StatusChargement } from '../../shared/alert/chargement/char
 import { RoutineService } from '../../core/service/routine-service';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { firstValueFrom, forkJoin } from 'rxjs';
-import { Fortune } from "../../shared/fortune/fortune";
 
 @Component({
   selector: 'app-accueil',
-  imports: [RoutineList, FormsModule, RouterLink, Chargement, Fortune],
+  imports: [RoutineList, FormsModule, RouterLink, Chargement],
   templateUrl: './accueil.html',
   styleUrl: './accueil.css',
 })
