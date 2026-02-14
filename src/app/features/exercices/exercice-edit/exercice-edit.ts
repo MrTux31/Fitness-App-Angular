@@ -5,10 +5,12 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Exercice } from '../../../core/models/exercice';
 import { ExerciceService } from '../../../core/service/exercice-service';
 import { Chargement, StatusChargement } from '../../../shared/alert/chargement/chargement';
+import { ExerciceType } from '../../../core/models/exercice-type';
+import { ExerciceTypeService } from '../../../core/service/exercice-type-service';
 
 @Component({
   selector: 'app-exercice-edit',
-  imports: [NgClass, FormsModule, RouterLink,Chargement],
+  imports: [ FormsModule, RouterLink,Chargement],
   templateUrl: './exercice-edit.html',
   styleUrl: './exercice-edit.css',
 })
@@ -16,6 +18,7 @@ export class ExerciceEdit {
   public exercice = signal<Exercice>(new Exercice());
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private exerciceTypeService = inject(ExerciceTypeService)
   private exerciceService = inject(ExerciceService);
 
   public routineId!: number; //Sera assigné après
@@ -23,6 +26,8 @@ export class ExerciceEdit {
 
   public readonly StatusChargement = StatusChargement
   statusChargement = signal<StatusChargement>(StatusChargement.SUCCES)
+
+  public exercicesType :ExerciceType[] = []
 
   ngOnInit() {
     //Récupérer l'id de la routine concernée
@@ -39,6 +44,8 @@ export class ExerciceEdit {
     if(this.exerciceId){
       this.chargerExercice(this.exerciceId);
     }
+
+    this.chargerNomsExercices();
   }
 
   chargerExercice(id: number) {
@@ -52,6 +59,15 @@ export class ExerciceEdit {
         this.statusChargement.set(StatusChargement.ERREUR);
       },
     });
+  }
+
+  /**
+   * Permet de charger la liste des exercices type
+   */
+  chargerNomsExercices(){
+    this.exerciceTypeService.getExercicesType().subscribe({
+      next: (exercicesType) => this.exercicesType = exercicesType
+    })
   }
 
   onSubmit(formulaire: NgForm) {

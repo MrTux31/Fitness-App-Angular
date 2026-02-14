@@ -1,14 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { Routine } from '../../../core/models/routine';
-import { NgClass } from '@angular/common';
 import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { RoutineService } from '../../../core/service/routine-service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { format } from 'date-fns';
 import { Chargement, StatusChargement } from '../../../shared/alert/chargement/chargement';
 @Component({
   selector: 'app-routine-edit',
-  imports: [NgClass, FormsModule, RouterLink,Chargement],
+  imports: [ FormsModule, RouterLink,Chargement],
   templateUrl: './routine-edit.html',
   styleUrl: './routine-edit.css',
 })

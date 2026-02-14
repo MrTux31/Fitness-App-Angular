@@ -1,55 +1,63 @@
 @if(statusChargement() == StatusChargement.SUCCES){
 
-<div class="accordion mt-3">
-  <div class="accordion-item">
-    <div class="accordion-header">
-      <button
-        class="accordion-button"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#exercices"
-        aria-expanded="true"
-      >
-        Exercices ({{ exercices().length }})
-      </button>
-    </div>
+  @if(exercices().length > 0){
+    <div class="accordion mt-3">
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <button
+          class="accordion-button"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#exercices"
+          aria-expanded="true"
+        >
+          Exercices ({{ exercices().length }})
+        </button>
+      </div>
 
-    <div id="exercices" class="accordion-collapse collapse show">
-      <div class="accordion-body p-0">
-        <ul class="list-group list-group-flush">
-          @for(exercice of exercices(); track exercice.id){
-          <li class="list-group-item d-flex justify-content-between">
-            <span class="d-flex align-items-center gap-2">
-              {{ exercice.name }}
-              <small class="text-muted">(x{{ exercice.repetitions }})</small>
-              <!--Affichage du poids si nécessaire-->
-              @if(exercice.weight){
-              <span class="badge bg-secondary d-flex justify-content-center align-items-center"
-                >{{ exercice.weight }} kg</span
-              >
-              }
-            </span>
+      <div id="exercices" class="accordion-collapse collapse show">
+        <div class="accordion-body p-0">
+          <ul class="list-group list-group-flush">
+            @for(exercice of exercices(); track exercice.id){
+            <li class="list-group-item d-flex justify-content-between">
+              <span class="d-flex align-items-center gap-2">
+                {{ exercice.name }}
+                <small class="text-muted">(x{{ exercice.repetitions }})</small>
+                <!--Affichage du poids si nécessaire-->
+                @if(exercice.weight){
+                <span class="badge bg-secondary d-flex justify-content-center align-items-center"
+                  >{{ exercice.weight }} kg</span
+                >
+                }
+              </span>
 
-            <div class="d-flex align-items-center gap-2"><!--Bouton d'édition de l'exercice-->
-            <a class="btn btn-info" routerLink="/routines/{{routineId}}/edit/{{exercice.id}}"
-              ><i class="fa-solid fa-pen-to-square"></i
-            ></a>
+              <div class="d-flex align-items-center gap-2">
+                <!--Bouton d'édition de l'exercice-->
+                <a class="btn btn-info" routerLink="/routines/{{ routineId }}/edit/{{ exercice.id }}"
+                  ><i class="fa-solid fa-pen-to-square"></i
+                ></a>
 
-            <!--Bouton de suppression de l'exercice-->
-            <button (click) = "onSupprime(exercice)" class="btn btn-danger">
-              <i class="fa-solid fa-trash-can"></i>
-            </button></div>
+                <!--Bouton de suppression de l'exercice-->
+                <button (click)="onSupprime(exercice)" class="btn btn-danger">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </div>
+            </li>
 
-          </li>
-
-          }
-        </ul>
+            }
+          </ul>
+        </div>
       </div>
     </div>
   </div>
-</div>
+  }@else{
+     <p class="text-center bg-white text-dark p-2 rounded m-0">
+  Eh oh tu fais quoi ? Y a pas encore d'exercice ???
+</p>
+  }
+  
 
 }@else {
-  <app-chargement [status]="statusChargement()"></app-chargement>
+<app-chargement [status]="statusChargement()"></app-chargement>
 
 }

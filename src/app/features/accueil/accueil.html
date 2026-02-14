@@ -9,7 +9,20 @@
         <i class="fa-solid fa-plus"></i> Ajouter une routine
       </button>
     </a>
+
+    
     <button class="btn btn-info" (click)="resetAll()"><i class="fa-solid fa-rotate-left"></i> Tout relancer</button>
+    <button class="btn btn-light" (click)="filtre == 'asc' ? filtre = 'desc' : filtre='asc'; chargerRoutines()">
+      @if (filtre == 'asc') {
+        <i class="fa-solid fa-sort-up"></i>
+      }@else {
+        <i class="fa-solid fa-sort-down"></i> 
+      }
+
+      Date de création</button>
+
+
+
   </div>
 </div>
 

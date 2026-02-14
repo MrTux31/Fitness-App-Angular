@@ -17,13 +17,22 @@ export class RoutineService {
 
   constructor() {}
 
-  getRoutines(filtres?: { status?: Status }): Observable<Routine[]> {
+  getRoutines(
+    filtres?: { status?: Status },
+    tri?: { champ: string; ordre: 'asc' | 'desc' }
+  ): Observable<Routine[]> {
     //Paramètres pour la requete a faire
     let params: any = {};
 
     //Si y a le status on l'ajoute dans les params
     if (filtres?.status) {
       params.status = filtres.status;
+    }
+
+    //Si on veut faire un tri croissant ou décroissant
+    if (tri) {
+      params._sort = tri.champ;
+      params._order = tri.ordre;
     }
 
     return this.http.get<Routine[]>(this.routineAPI, { params });
@@ -52,6 +61,4 @@ export class RoutineService {
     routine.status = newStatus;
     return this.updateRoutine(routine);
   }
-
-
 }

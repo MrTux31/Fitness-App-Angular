@@ -1,13 +1,11 @@
 import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RoutineService } from '../../../core/service/routine-service';
 import { Routine, Status } from '../../../core/models/routine';
 import { RoutineItem } from '../routine-item/routine-item';
-import { StatusChargement, Chargement } from '../../../shared/alert/chargement/chargement';
+import { Fortune } from "../../../shared/fortune/fortune";
 
 @Component({
   selector: 'app-routine-list',
-  imports: [RoutineItem, Chargement],
+  imports: [RoutineItem, Fortune],
   templateUrl: './routine-list.html',
   styleUrl: './routine-list.css',
 })

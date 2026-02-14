@@ -27,7 +27,7 @@ class="routine-item list-group-item d-flex justify-content-between align-items-c
 
     <!--Bouton pour mettre innactive et pour remettre la routine active-->
     @if(routine.status == Status.ACTIVE){
-     <button class="btn btn-success" (click)="changerStatusRoutine()"> <i class="fa-solid fa-check"></i></button>
+     <button class="btn btn-success" (click)="changerStatusRoutine()" title="Marquer comme inactive"> <i class="fa-solid fa-check"></i></button>
     }
     @else{
       <button class="btn btn-light" (click)="changerStatusRoutine()"><i class="fa-solid fa-rotate-left"></i></button>

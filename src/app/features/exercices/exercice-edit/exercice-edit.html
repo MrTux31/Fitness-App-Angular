@@ -11,7 +11,12 @@
     <label for="nomExercice" class="form-label">
       Nom de l'exercice
     </label>
-    <input ngModel required minlength="3" type="text" name="nomExercice" class="form-control" id="nomExercice" placeholder="Mon exercice" [(ngModel)]="exercice().name">
+    <input ngModel required minlength="3" type="text" name="nomExercice" class="form-control" id="nomExercice" placeholder="Mon exercice" list="exerciceType" [(ngModel)]="exercice().name">
+    <datalist id="exerciceType">
+      @for(exercice of exercicesType; track exercice.id){
+        <option [value]="exercice.name"></option>
+      }
+    </datalist>
 
   </div>
 

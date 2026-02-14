@@ -6,10 +6,11 @@ import { RoutineService } from '../../core/service/routine-service';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { firstValueFrom, forkJoin } from 'rxjs';
+import { Fortune } from "../../shared/fortune/fortune";
 
 @Component({
   selector: 'app-accueil',
-  imports: [RoutineList, FormsModule, RouterLink,Chargement],
+  imports: [RoutineList, FormsModule, RouterLink, Chargement, Fortune],
   templateUrl: './accueil.html',
   styleUrl: './accueil.css',
 })
@@ -17,13 +18,14 @@ export class Accueil {
   public readonly Status = Status;
   public readonly StatusChargement = StatusChargement;
   router = inject(Router);
-  private toUpdateRoutines: Routine[] = [];
   private routineService = inject(RoutineService);
-
-  public statusChargement = signal<StatusChargement>(StatusChargement.CHARGEMENT);
+ public statusChargement = signal<StatusChargement>(StatusChargement.CHARGEMENT);
   public listeRoutines = signal<Routine[]>([]);
 
+
+  private toUpdateRoutines: Routine[] = [];
   triStatus? = Status.ACTIVE;
+  filtre: 'asc' | 'desc' = 'desc'; //Filtre sur la date de création (le type de la var est soit 'asc' soit 'desc')
 
   ngOnInit() {
     this.chargerRoutines();
@@ -32,7 +34,7 @@ export class Accueil {
   public chargerRoutines() {
     this.statusChargement.set(StatusChargement.CHARGEMENT);
     //On récupère la liste des routines
-    this.routineService.getRoutines({ status: this.triStatus }).subscribe({
+    this.routineService.getRoutines({ status: this.triStatus }, {champ: "creationDate", ordre: this.filtre}).subscribe({
       next: (listeRoutines) => {
         this.listeRoutines.set(listeRoutines)
         this.statusChargement.set(StatusChargement.SUCCES);

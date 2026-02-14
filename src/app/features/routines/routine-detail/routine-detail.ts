@@ -45,7 +45,6 @@ export class RoutineDetail {
 
       },
       error: (err) => {this.router.navigateByUrl('/taches')
-        this.statusChargement.set(StatusChargement.ERREUR)
       },
     });
   }

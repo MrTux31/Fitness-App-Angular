@@ -1,17 +1,29 @@
 
 
 
+@if(routines().length > 0){
+  <h2>
+    <b>{{ routines().length }} </b> routines
+  </h2>
+  <app-fortune></app-fortune>
 
 
-<h2>
-  <b>{{ routines().length }} </b> routines
-</h2>
+  <ul class="list-group">
 
-<ul class="list-group">
+  <!--Boucle sur les routines-->
+  @for (routine of routines(); track routine.id) {
+    <!--On génère les routine à afficher-->
+    <app-routine-item [routine]="routine" [triStatus]="triStatus" (routineUpdated)="routineUpdated($event)"></app-routine-item>
+  }
+    </ul>
 
-<!--Boucle sur les routines-->
-@for (routine of routines(); track routine.id) {
-  <!--On génère les routine à afficher-->
-  <app-routine-item [routine]="routine" [triStatus]="triStatus" (routineUpdated)="routineUpdated($event)"></app-routine-item>
 }
-  </ul>
+@else{
+  <div class="d-flex flex-column justify-content-center align-items-center vh-60">
+    <p class="text-center fs-3 fw-bold">
+      Aucune routine à voir ici...
+    </p>
+  </div>
+}
+
+
