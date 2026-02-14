@@ -3,34 +3,53 @@
   <div class="accordion-item">
     <div class="accordion-header">
       <button
-        class="accordion-button"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#exercices"
-        aria-expanded="true"
-      >
-        Exercices ({{ exercices().length }})
-      </button>
+  class="accordion-button w-100 d-flex justify-content-between align-items-center"
+  type="button"
+  data-bs-toggle="collapse"
+  data-bs-target="#exercices"
+>
+<div class="d-flex justify-content-center align-items-center gap-3">
+ <span class="fw-bold">
+    <i class="fa-solid fa-dumbbell me-2"></i>
+    Exercices ({{ exercices().length }})
+  </span>
+
+  <span class="d-flex gap-3 small align-items ">
+    <span>
+      <i class="fa-solid fa-repeat me-1"></i>
+      {{ nbRepetitionTotales }} reps
+    </span>
+    <span>
+      <i class="fa-solid fa-weight-hanging me-1"></i>
+      {{ poidsTotal }} kg
+    </span>
+  </span>
+</div>
+ 
+</button>
     </div>
 
     <div id="exercices" class="accordion-collapse collapse show">
       <div class="accordion-body p-0 bg-secondary">
-       
         <!--Bouton pour tout mettre "fait" ou "non fait" d'un coup-->
         <div class="d-flex justify-content-center gap-2">
           <button class="btn btn-success btn-sm" (click)="changeAllExerciceStatus(true)">
             <i class="fa-solid fa-check"></i> Tout cocher comme fait
           </button>
           <button class="btn btn-info btn-sm" (click)="changeAllExerciceStatus(false)">
-            <i class="fa-solid fa-rotate-left" ></i> Tout remettre à non fait
+            <i class="fa-solid fa-rotate-left"></i> Tout remettre à non fait
           </button>
         </div>
 
         <ul class="list-group list-group-flush">
+          <!--Boucler sur les exercices à afficher-->
           @for(exercice of exercices(); track exercice.id){
-            <app-exercice-item [exercice] ="exercice" [exerciceStatus]="exerciceStatus" (exerciceUpdated)="getExerciceStatus()"> </app-exercice-item>
-
-
+          <app-exercice-item
+            [exercice]="exercice"
+            [exerciceStatus]="exerciceStatus"
+            (exerciceUpdated)="getExerciceStatus()"
+          >
+          </app-exercice-item>
           }
         </ul>
       </div>
