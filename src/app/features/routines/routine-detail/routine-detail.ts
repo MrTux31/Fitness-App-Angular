@@ -3,7 +3,7 @@ import { Component, inject, signal } from '@angular/core';
 import { Routine, Status } from '../../../core/models/routine';
 import { RoutineService } from '../../../core/service/routine-service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { ExerciceList } from "../../exercices/exercice-list/exercice-list";
+import { ExerciceList } from '../../exercices/exercice-list/exercice-list';
 import { Exercice } from '../../../core/models/exercice';
 import { ExerciceService } from '../../../core/service/exercice-service';
 import { Chargement, StatusChargement } from '../../../shared/alert/chargement/chargement';
@@ -16,8 +16,8 @@ import { Chargement, StatusChargement } from '../../../shared/alert/chargement/c
 })
 export class RoutineDetail {
   public readonly Status = Status;
-  public readonly StatusChargement = StatusChargement
-  
+  public readonly StatusChargement = StatusChargement;
+
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private routineService = inject(RoutineService);
@@ -26,57 +26,73 @@ export class RoutineDetail {
   public routine = signal<Routine>(new Routine());
   public statusChargement = signal<StatusChargement>(StatusChargement.CHARGEMENT);
 
-  public exercices = signal<Exercice[]>([]);
-  public idRoutine = 0
+  private exercices: Exercice[] = [];
+  public idRoutine = 0;
 
   ngOnInit() {
     //Récupérer l'id de la routine à afficher
     this.idRoutine = this.route.snapshot.params['id'];
     this.recupererRoutine(this.idRoutine);
+    this.recupererExercices(this.idRoutine);
   }
 
   recupererRoutine(id: number) {
-    this.statusChargement.set(StatusChargement.CHARGEMENT)
+    this.statusChargement.set(StatusChargement.CHARGEMENT);
     this.routineService.getRoutine(id).subscribe({
       next: (routine) => {
-        this.routine.set(routine)
-        this.statusChargement.set(StatusChargement.SUCCES)
+        this.routine.set(routine);
+        this.statusChargement.set(StatusChargement.SUCCES);
+      },
+      error: (err) => {
+        this.router.navigateByUrl('/');
+      },
+    });
+  }
 
+  recupererExercices(idRoutine: number) {
+    this.statusChargement.set(StatusChargement.CHARGEMENT);
+    this.exerciceService.getExercicesRoutine(idRoutine).subscribe({
+      next: (exercices) => {
+        this.exercices = exercices;
+        this.statusChargement.set(StatusChargement.SUCCES);
       },
-      error: (err) => {this.router.navigateByUrl('/')
-      },
+      error: (err) => this.statusChargement.set(StatusChargement.ERREUR),
+    });
+  }
+
+
+  //On met la routine innactif
+  changeStatusRoutine() {
+    this.routineService.toggleStatus(this.routine()).subscribe({
+      next: (routine) => this.routine.set(routine),
     });
   }
 
   onSupprime(): void {
     if (confirm('Voulez-vous réellement supprimer cette routine ?')) {
-      this.routineService.deleteRoutine(this.routine()).subscribe({
-        next: (routine) => {
-
-          //On suppprime les exercices liés à la routine
-          this.supprimerExercicesRoutine()
-
-          this.router
-            .navigateByUrl('/')
-            .then(() => this.router.navigateByUrl('/routines/' + this.routine().id));
-        },
-      });
+      this.supprimerRoutine();
     }
   }
 
-  //On met la routine innactif
-  changeStatusRoutine(){
-    this.routineService.toggleStatus(this.routine()).subscribe({
-      next:(routine)=> this.routine.set(routine)
-    })
-  }
+  
 
   /**
-   * Permet de supprimer tous les exercices liés à la routine
+   * Permet de supprimer tous les exercices liés à la routine PUIS la routine
    */
-  supprimerExercicesRoutine(){
-    for(const exercice of this.exercices()){
-      this.exerciceService.deleteExercice(exercice).subscribe()
+
+  supprimerRoutine() {
+    if (this.exercices.length == 0) {
+      this.routineService.deleteRoutine(this.routine()).subscribe({
+        next: () => this.router.navigateByUrl('/'),
+        error: () => this.router.navigateByUrl('/'),
+      });
+    } else {
+      this.exerciceService.deleteExercice(this.exercices[0]).subscribe({
+        next: () => {
+          this.exercices.shift();
+          this.supprimerRoutine();
+        },
+      });
     }
   }
 }

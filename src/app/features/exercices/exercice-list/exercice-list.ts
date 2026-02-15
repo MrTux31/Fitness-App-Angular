@@ -1,4 +1,4 @@
-import { Component, inject, Input, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { Exercice } from '../../../core/models/exercice';
 import { ExerciceService } from '../../../core/service/exercice-service';
 import { Chargement, StatusChargement } from '../../../shared/alert/chargement/chargement';
@@ -15,6 +15,8 @@ export class ExerciceList {
 
   @Input()
   public routineId: number = 0;
+  
+
   public exerciceService = inject(ExerciceService);
   exercices = signal<Exercice[]>([]);
   statusChargement = signal<StatusChargement>(StatusChargement.SUCCES)
@@ -41,7 +43,6 @@ export class ExerciceList {
         this.exercices.set(exercices)
         this.calculerPoidsEtRepetitions()
         this.statusChargement.set(StatusChargement.SUCCES)
-
       },
       error: (err) => this.statusChargement.set(StatusChargement.ERREUR)
 
